@@ -5,17 +5,39 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Descrição da Classe: circulo sem física que saltita na tela, cor e velocidade aleatórias, perde velocidado ao tocar as bordas,
+ * velocidade alterada ao pressionar espaço
+ */
 public class Circulo implements ObjetoJogo, KeyListener {
     int x, y;
     int velocX, velocY;
     Color cor;
 
-    Circulo(int x, int y, int velocX, int velocY, Color cor) {
-        this.x = x;
-        this.y = y;
-        this.velocX = velocX;
-        this.velocY = velocY;
-        this.cor = cor;
+    Circulo() {
+        int maxVelocCirv = 16;
+
+        Color[] cores = {
+            Color.CYAN,
+            Color.GREEN,
+            Color.MAGENTA,
+            Color.ORANGE,
+            Color.PINK,
+            Color.YELLOW,
+            Color.RED,
+            Color.BLUE,
+            Color.LIGHT_GRAY,
+            Color.WHITE,
+            new Color(55,10,10),
+            new Color(0,0,0),
+            new Color(0,0,100)
+        };
+        
+        this.x = (int)(Math.random()*(SillyGame.WIDTH_TELA-32));
+        this.y = (int)(Math.random()*(SillyGame.HEIGHT_TELA-32));
+        this.velocX = (int)(Math.random()*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
+        this.velocY = (int)(Math.random()*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
+        this.cor = cores[(int)(Math.random()*cores.length-1)];
     }
 
     @Override
