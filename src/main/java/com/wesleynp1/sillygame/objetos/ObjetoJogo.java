@@ -1,4 +1,4 @@
-package com.wesleynp1.sillygame;
+package com.wesleynp1.sillygame.objetos;
 
 import java.awt.Graphics2D;
 

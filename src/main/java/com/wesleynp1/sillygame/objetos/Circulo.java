@@ -1,20 +1,22 @@
-package com.wesleynp1.sillygame;
+package com.wesleynp1.sillygame.objetos;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
+import com.wesleynp1.sillygame.SillyGame;
+import com.wesleynp1.sillygame.TecladoResposivo;
 
 /**
  * Descrição da Classe: circulo sem física que saltita na tela, cor e velocidade aleatórias, perde velocidado ao tocar as bordas,
  * velocidade alterada ao pressionar espaço
  */
-public class Circulo implements ObjetoJogo, KeyListener {
+public class Circulo implements ObjetoJogo,TecladoResposivo{
     int x, y;
     int velocX, velocY;
     Color cor;
 
-    Circulo() {
+    public Circulo() {
         int maxVelocCirv = 16;
 
         Color[] cores = {
@@ -57,13 +59,13 @@ public class Circulo implements ObjetoJogo, KeyListener {
     }
 
     private void decidirDirecao() {
-        if (x >= 1024 - 32 && velocX > 0) {
+        if (x >= SillyGame.WIDTH_TELA-32 && velocX > 0) {
             velocX = (int) (velocX * (-1) * 0.8);
         } else if (x <= 0 && velocX < 0) {
             velocX = (int) (velocX * (-1) * 0.8);
         }
 
-        if (y >= 768 - 32 && velocY > 0) {
+        if (y >= SillyGame.HEIGHT_TELA-32 && velocY > 0) {
             velocY = (int) (velocY * (-1) * 0.8);
         } else if (y <= 0 && velocY < 0) {
             velocY = (int) (velocY * (-1) * 0.8);
@@ -71,18 +73,11 @@ public class Circulo implements ObjetoJogo, KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void teclaLiberada(KeyEvent e) {
+        this.velocX = (int) (Math.random() * 8)*(Math.random()>0.5 ? -1 : 1);
+        this.velocY = (int) (Math.random() * 8)*(Math.random()>0.5 ? -1 : 1);        
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE){
-            this.velocX = (int) (Math.random() * 8)*(Math.random()>0.5 ? -1 : 1);
-            this.velocY = (int) (Math.random() * 8)*(Math.random()>0.5 ? -1 : 1);
-        }
-    }
+    public void teclaPressionada(KeyEvent e) {}
 }

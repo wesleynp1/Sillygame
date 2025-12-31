@@ -2,7 +2,7 @@
 run(){
     mkdir -p ./classes &&
     rm -rf ./classes/* 
-    javac -d ./classes/ ./src/main/java/com/wesleynp1/sillygame/*.java &&
+    javac -d ./classes/ ./src/main/java/com/wesleynp1/sillygame/*.java ./src/main/java/com/wesleynp1/sillygame/salas/*.java  ./src/main/java/com/wesleynp1/sillygame/objetos/*.java &&
     cd ./classes/ &&
     java com.wesleynp1.sillygame.SillyGame
 }
@@ -10,7 +10,7 @@ run(){
 build(){
     mkdir -p ./output &&
     rm -rf ./output/* && echo 'removidos builds antigas' &&
-    javac -d ./classes/ ./src/main/java/com/wesleynp1/sillygame/*.java &&
+    javac -d ./classes/ ./src/main/java/com/wesleynp1/sillygame/*.java ./src/main/java/com/wesleynp1/sillygame/salas/*.java  ./src/main/java/com/wesleynp1/sillygame/objetos/*.java &&
     jar -c --file=./output/SillyGame.jar --main-class=com.wesleynp1.sillygame.SillyGame  -C ./classes/ com  && echo 'gerado novo .jar' &&
     chmod u+x ./output/* && echo 'autorizada execução do novo .jar'
 }

@@ -1,4 +1,4 @@
-package com.wesleynp1.sillygame;
+package com.wesleynp1.sillygame.objetos;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,7 +8,7 @@ public class Aviso implements ObjetoJogo{
     private String texto;
     private int x,y;
 
-    Aviso(String texto,int x, int y){
+    public Aviso(String texto,int x, int y){
         this.texto = texto;
         this.x = x;
         this.y = y;

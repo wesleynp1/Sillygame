@@ -3,6 +3,10 @@ package com.wesleynp1.sillygame;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import com.wesleynp1.sillygame.salas.Sala;
+import com.wesleynp1.sillygame.salas.SalaChuvaCirc;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class SillyGame implements Runnable{
@@ -12,7 +16,8 @@ public class SillyGame implements Runnable{
 
     private Tela telaJogo;
     boolean sairJogo = false;
-    ArrayList<ObjetoJogo> objetosJogo = new ArrayList<ObjetoJogo>();
+    ArrayList<Sala> salas = new ArrayList<Sala>();
+    int NdaSalaAtual = 0;
     int milisecondsPerCiclo = 1000/60;//60 FPS
     
     public static void main(String[] args) {
@@ -20,14 +25,14 @@ public class SillyGame implements Runnable{
     }
     
     SillyGame(){
-        iniciaInterfaceGrafica();
-        criaAndAddObjetosJogo();
+        criaSalas();
+        iniciaInterfaceGrafica();        
         iniciaLoopPrincipalDoJogo();
     }
 
     private void iniciaInterfaceGrafica(){
-        JFrame JanelaDoJogo = new JFrame("Silly Game - by Wesley Natan Pereira"); 
-        telaJogo = new Tela(this.objetosJogo, WIDTH_TELA, HEIGHT_TELA);
+        JFrame JanelaDoJogo = new JFrame("Silly Game - by Wesley Natan Pereira");
+        telaJogo = new Tela(this.salas.get(NdaSalaAtual), WIDTH_TELA, HEIGHT_TELA);
 
         JanelaDoJogo.add(this.telaJogo);
         JanelaDoJogo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,14 +42,8 @@ public class SillyGame implements Runnable{
         JanelaDoJogo.setLocationRelativeTo(null);
     }
 
-    private void criaAndAddObjetosJogo(){
-        objetosJogo.add(new Aviso("PRESIONE ESPAÇO", WIDTH_TELA/2-124, HEIGHT_TELA/2));
-
-        for(int i = 0; i < 800; i++){
-            Circulo novoCirculo = new Circulo();
-            this.telaJogo.addKeyListener(novoCirculo);
-            this.objetosJogo.add(novoCirculo);
-        }
+    private void criaSalas(){
+        salas.add(new SalaChuvaCirc());
     }
 
     private void iniciaLoopPrincipalDoJogo(){
@@ -54,13 +53,12 @@ public class SillyGame implements Runnable{
     }
 
     @Override
-    public void run() {
-        
+    public void run() {        
         while(!sairJogo){   
             Long inicio = System.currentTimeMillis();
             atualizaLogicaJogo();       
 
-            try {                                
+            try {
                 SwingUtilities.invokeAndWait(() -> this.telaJogo.repaint());
                 long tempoRestanteAteProximoCiclo = milisecondsPerCiclo - (inicio - System.currentTimeMillis());
                 if(tempoRestanteAteProximoCiclo>0){
@@ -68,13 +66,13 @@ public class SillyGame implements Runnable{
                 }
             } catch (InterruptedException | InvocationTargetException e){
                 e.printStackTrace();
-            }            
+            }
         }
     }
 
     private void atualizaLogicaJogo() {
-        for(ObjetoJogo objetoJogo : objetosJogo){
-            objetoJogo.atualizarLogicaJogo();
+        for(Sala sala : salas){
+            sala.atualizaLogicaJogo();
         }
     }
 }
