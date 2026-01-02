@@ -6,12 +6,18 @@ import com.wesleynp1.sillygame.TecladoResposivo;
 import com.wesleynp1.sillygame.objetos.ObjetoJogo;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public abstract class Sala implements KeyListener{
+public abstract class Sala{
 
     protected ArrayList<ObjetoJogo> objetosJogo = new ArrayList<ObjetoJogo>();
-    public abstract void criaAndAddObjetosJogo();
+
+    public ArrayList<ObjetoJogo> getObjetosjogo(){
+        return objetosJogo;
+    }
+
+    public void setObjetosJogo(ArrayList<ObjetoJogo> objetoJogos){
+        this.objetosJogo = objetoJogos;
+    }
     
     public void atualizaLogicaJogo(){
         for(ObjetoJogo objetoJogo : objetosJogo){
@@ -23,24 +29,20 @@ public abstract class Sala implements KeyListener{
         return objetosJogo;
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
+    
+    public void botaoPressionado(KeyEvent e) {
         for(ObjetoJogo objetoJogo : objetosJogo){
             if(objetoJogo instanceof TecladoResposivo){
                 ((TecladoResposivo)objetoJogo).teclaPressionada(e);
             }
         }
-    }
+    }    
     
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public void botaoLiberado(KeyEvent e) {
         for(ObjetoJogo objetoJogo : objetosJogo){
             if(objetoJogo instanceof TecladoResposivo){
                 ((TecladoResposivo)objetoJogo).teclaLiberada(e);
             }
         }
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
 }

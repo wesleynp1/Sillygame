@@ -13,12 +13,19 @@ import com.wesleynp1.sillygame.salas.Sala;
 /*
 *Descrição da Classe: a tela onde o jogo é pintado
 */
-public class Tela extends JPanel{
-        Sala sala;
+public class TelaJogo extends JPanel{
+        private Sala sala;
 
-        Tela(Sala sala,int width,int height){
+        public Sala getSala(){
+            return sala;
+        }
+
+        public void setSala(Sala sala){
+            this.sala = sala;            
+        }
+
+        TelaJogo(Sala sala, int width, int height){
             this.sala = sala;
-            addKeyListener(sala);
             setPreferredSize(new Dimension(width,height));
             setBackground(Color.DARK_GRAY);
             setFocusable(true);
@@ -28,11 +35,11 @@ public class Tela extends JPanel{
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-                if(!sala.equals(null)){
-                    for(ObjetoJogo objetoJogo : sala.getObjetosJogo()){
-                    objetoJogo.autoDesenhar(g2d);
-                    
-                }   
-            }                                     
+            
+            sala.getObjetosJogo().sort((obj0, obj1) -> (Integer.compare(obj0.getZ(), obj1.getZ()))*-1);
+
+            for(ObjetoJogo objetoJogo : sala.getObjetosJogo()){
+                objetoJogo.autoDesenhar(g2d);
+            }                                                 
         }            
     }

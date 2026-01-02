@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-public class Aviso implements ObjetoJogo{
+public class Aviso extends ObjetoJogo{
     private String texto;
-    private int x,y;
 
     public Aviso(String texto,int x, int y){
+        super(x, y,0);
         this.texto = texto;
-        this.x = x;
-        this.y = y;
     }
 
     @Override
