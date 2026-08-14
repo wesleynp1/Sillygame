@@ -22,7 +22,7 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo{
             (int)(Math.random()*(SillyGame.HEIGHT_TELA-32)),
             Math.round((float) (Math.random()*9))
         );
-        int maxVelocCirv = 16;
+        int maxVelocCirv = 10;
 
         Color[] cores = {
             Color.CYAN,
@@ -45,6 +45,10 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo{
         this.cor = cores[(int)(Math.random()*cores.length-1)];
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
     
 
     @Override
@@ -67,15 +71,15 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo{
 
     private void decidirDirecao() {
         if (x >= SillyGame.WIDTH_TELA-32 && velocX > 0) {
-            velocX = (int) (velocX * (-1) * 0.8);
+            velocX = (int) (velocX * (-1) * 0.7);
         } else if (x <= 0 && velocX < 0) {
-            velocX = (int) (velocX * (-1) * 0.8);
+            velocX = (int) (velocX * (-1) * 0.7);
         }
 
         if (y >= SillyGame.HEIGHT_TELA-32 && velocY > 0) {
-            velocY = (int) (velocY * (-1) * 0.8);
+            velocY = (int) (velocY * (-1) * 0.7);
         } else if (y <= 0 && velocY < 0) {
-            velocY = (int) (velocY * (-1) * 0.8);
+            velocY = (int) (velocY * (-1) * 0.7);
         }
     }
 

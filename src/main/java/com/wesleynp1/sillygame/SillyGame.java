@@ -1,15 +1,14 @@
 package com.wesleynp1.sillygame;
 
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.wesleynp1.sillygame.salas.Sala;
 import com.wesleynp1.sillygame.salas.SalaChuvaCirc;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.lang.reflect.InvocationTargetException;
 
 public class SillyGame implements Runnable,KeyListener {
 

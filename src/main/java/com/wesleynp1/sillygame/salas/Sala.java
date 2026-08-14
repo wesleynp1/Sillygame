@@ -1,22 +1,39 @@
 package com.wesleynp1.sillygame.salas;
 
-import java.util.ArrayList;
-
+import java.util.List;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import com.wesleynp1.sillygame.TecladoResposivo;
 import com.wesleynp1.sillygame.objetos.ObjetoJogo;
 
-import java.awt.event.KeyEvent;
 
 public abstract class Sala{
 
-    protected ArrayList<ObjetoJogo> objetosJogo = new ArrayList<ObjetoJogo>();
+    protected List<ObjetoJogo> objetosJogo;    
 
-    public ArrayList<ObjetoJogo> getObjetosjogo(){
+    protected abstract List<ObjetoJogo> criaListaObjetosJogo();
+
+    public List<ObjetoJogo> getObjetosJogo() {
         return objetosJogo;
     }
 
-    public void setObjetosJogo(ArrayList<ObjetoJogo> objetoJogos){
-        this.objetosJogo = objetoJogos;
+    public void setObjetosJogo(List<ObjetoJogo> objetosJogo) {
+        this.objetosJogo = objetosJogo;
+        ordernarObjetos();
+    }
+
+    public void adicionarObjeto(ObjetoJogo obj){
+        this.objetosJogo.add(obj);
+        ordernarObjetos();        
+    }
+
+    public void removerObjeto(ObjetoJogo obj){
+        this.objetosJogo.remove(obj);
+        ordernarObjetos();
+    }
+
+    private void ordernarObjetos(){
+        objetosJogo.sort((obj0, obj1) -> Integer.compare(obj0.getZ(), obj1.getZ()));
     }
     
     public void atualizaLogicaJogo(){
@@ -25,10 +42,11 @@ public abstract class Sala{
         }
     }
 
-    public ArrayList<ObjetoJogo> getObjetosJogo() {
-        return objetosJogo;
+    public void autoDesenhar(Graphics2D g2d){
+        for(ObjetoJogo objetoJogo : objetosJogo){
+            objetoJogo.autoDesenhar(g2d);
+        }
     }
-
     
     public void botaoPressionado(KeyEvent e) {
         for(ObjetoJogo objetoJogo : objetosJogo){
