@@ -24,8 +24,8 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo, Colidivel{
             (int)(Math.random()*(SillyGame.WIDTH_TELA-32)), 
             (int)(Math.random()*(SillyGame.HEIGHT_TELA-32)),
             Math.round((float) (Math.random()*9)),
-            32,
-            32
+            48,
+            48
         );
         int maxVelocCirv = 10;
 
@@ -69,8 +69,8 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo, Colidivel{
         g2d.fillArc(x, y, width, height, 0, 360);
         g2d.setColor(contorno);
         g2d.drawArc(x, y, width, height, 0, 360);
-        g2d.setFont(new Font("Arial", Font.BOLD, 24));
-        g2d.drawString(String.valueOf(z), x+8, y+24);
+        g2d.setFont(new Font("Arial", Font.BOLD, (int)(this.width*0.75)));
+        g2d.drawString(String.valueOf(z), x+(int)(this.height*0.25), y+(int)(this.height*0.75));
     }
 
     @Override
@@ -82,16 +82,18 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo, Colidivel{
     }
 
     private void decidirDirecao() {
-        if (x >= SillyGame.WIDTH_TELA-32 && velocX > 0) {
-            velocX = (int) (velocX * (-1) * 0.7);
+        float proporcao = 1; 
+
+        if (x >= SillyGame.WIDTH_TELA-width && velocX > 0) {
+            velocX = (int) ((-1) * Math.abs(velocX) * proporcao);
         } else if (x <= 0 && velocX < 0) {
-            velocX = (int) (velocX * (-1) * 0.7);
+            velocX = (int) (Math.abs(velocX) * proporcao);
         }
 
-        if (y >= SillyGame.HEIGHT_TELA-32 && velocY > 0) {
-            velocY = (int) (velocY * (-1) * 0.7);
+        if (y >= SillyGame.HEIGHT_TELA-width && velocY > 0) {
+            velocY = (int) ((-1) * Math.abs(velocX) * proporcao);
         } else if (y <= 0 && velocY < 0) {
-            velocY = (int) (velocY * (-1) * 0.7);
+            velocY = (int) (Math.abs(velocX) * proporcao);
         }
     }
 
@@ -109,11 +111,16 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo, Colidivel{
     @Override
     public void aoColidir(Colidivel colidido) {
         ObjetoJogo objColidido = (ObjetoJogo) colidido;
-        
-        if(objColidido.getX() < x && velocX < 0 || objColidido.getX() > x && velocX > 0) this.velocX = velocX * (-1);
 
-        if(objColidido.getY() < x && velocY < 0 || objColidido.getY() > x && velocY > 0) this.velocY = velocY * (-1);        
+        if(y < objColidido.getY()+objColidido.getHeight() && y+height > objColidido.getY()){
+        velocX = velocX *(-1);
+        }
+
+        if(x < objColidido.getX()+objColidido.getWidth() && x+width > objColidido.getX()){
+        velocY = velocY *(-1);
+        }
 
         this.contorno = (contorno == Color.BLACK ? Color.WHITE : Color.BLACK);
+        decidirDirecao();
     }
 }

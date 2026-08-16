@@ -32,8 +32,8 @@ public class SillyGame implements Runnable,KeyListener {
     }
 
     private void criaSalas(){
-        salas.add(new SalaChuvaCirc(75));
-        salas.add(new SalaChuvaCirc(100));
+        salas.add(new SalaChuvaCirc(10));
+        salas.add(new SalaChuvaCirc(25));
         salas.add(new SalaChuvaCirc(50));
         salaAtual = salas.get(0);
     }
@@ -67,7 +67,7 @@ public class SillyGame implements Runnable,KeyListener {
 
             try {
                 SwingUtilities.invokeAndWait(() -> {
-                    this.telaJogo.paintImmediately(0,0,1024,768);
+                    this.telaJogo.paintImmediately(0,0,WIDTH_TELA,HEIGHT_TELA);
                     this.telaJogo.revalidate();
                 });
             } catch (InvocationTargetException | InterruptedException e) {                

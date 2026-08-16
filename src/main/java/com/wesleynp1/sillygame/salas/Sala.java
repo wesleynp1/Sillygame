@@ -125,11 +125,16 @@ public abstract class Sala {
         ObjetoJogo obj1 = (ObjetoJogo) Col1;
         ObjetoJogo obj2 = (ObjetoJogo) Col2;
 
-        if (obj1.getX() + obj1.getWidth() < obj2.getX() || obj1.getX() + obj1.getWidth() < obj2.getX()) return false;
-        if (obj1.getY() + obj1.getHeight() < obj2.getY() || obj1.getY() + obj1.getHeight() < obj2.getY()) return false;
+        if (
+            obj1.getX() + obj1.getWidth()  < obj2.getX() || 
+            obj1.getX() + obj1.getWidth()  < obj2.getX() ||
+            obj1.getY() + obj1.getHeight() < obj2.getY() || 
+            obj1.getY() + obj1.getHeight() < obj2.getY()
+        ){
+            return false;
+        }
 
-        int catetoA = Math.abs( (obj1.getX()+(obj1.getWidth()/2)) - (obj2.getX()+(obj2.getWidth()/2)) );
-
+        int catetoA = Math.abs( (obj1.getX()+(obj1.getWidth() /2)) - (obj2.getX()+(obj2.getWidth() /2)) );
         int catetoB = Math.abs( (obj1.getY()+(obj1.getHeight()/2)) - (obj2.getY()+(obj2.getHeight()/2)) );
 
         int distancia = (int)Math.sqrt((catetoA*catetoA) + (catetoB*catetoB));
