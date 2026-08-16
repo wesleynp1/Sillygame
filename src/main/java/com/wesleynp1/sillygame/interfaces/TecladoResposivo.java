@@ -1,4 +1,4 @@
-package com.wesleynp1.sillygame;
+package com.wesleynp1.sillygame.interfaces;
 
 import java.awt.event.KeyEvent;
 

@@ -19,7 +19,7 @@ public class SillyGame implements Runnable,KeyListener {
     boolean sairJogo = false;
     ArrayList<Sala> salas = new ArrayList<Sala>();
     Sala salaAtual;
-    int milisecondsPerCiclo = 1000/60;//60 FPS
+    int MILISECONDS_PER_CICLE = 1000/60;//60 FPS
     
     public static void main(String[] args) {
         new SillyGame();
@@ -32,8 +32,8 @@ public class SillyGame implements Runnable,KeyListener {
     }
 
     private void criaSalas(){
-        salas.add(new SalaChuvaCirc(900));
-        salas.add(new SalaChuvaCirc(300));
+        salas.add(new SalaChuvaCirc(75));
+        salas.add(new SalaChuvaCirc(100));
         salas.add(new SalaChuvaCirc(50));
         salaAtual = salas.get(0);
     }
@@ -53,23 +53,35 @@ public class SillyGame implements Runnable,KeyListener {
 
     private void iniciaLoopPrincipalDoJogo(){
         Thread loopPrincipal = new Thread(this, "LoopPrincipal");
-        loopPrincipal.setPriority(Thread.MAX_PRIORITY);
         loopPrincipal.start();
     }
 
     @Override
-    public void run() {        
+    public void run() {
         while(!sairJogo){   
-            Long inicio = System.currentTimeMillis();
+            long inicio = System.currentTimeMillis();
+
+            System.out.println("LOGICA INICIO: " + inicio);
             salaAtual.atualizaLogicaJogo();
+            System.out.println("LOGICA DURAÇÃO: "+(System.currentTimeMillis() - inicio));
 
             try {
-                SwingUtilities.invokeAndWait(() -> this.telaJogo.repaint());
-                long tempoRestanteAteProximoCiclo = milisecondsPerCiclo - (inicio - System.currentTimeMillis());
-                if(tempoRestanteAteProximoCiclo>0){
-                    Thread.sleep(tempoRestanteAteProximoCiclo);
+                SwingUtilities.invokeAndWait(() -> {
+                    this.telaJogo.paintImmediately(0,0,1024,768);
+                    this.telaJogo.revalidate();
+                });
+            } catch (InvocationTargetException | InterruptedException e) {                
+                e.printStackTrace();
+            }
+
+            try {    
+                long duração = (System.currentTimeMillis() - inicio);
+
+                if(duração < MILISECONDS_PER_CICLE){
+                    Thread.sleep(MILISECONDS_PER_CICLE - duração);
                 }
-            } catch (InterruptedException | InvocationTargetException e){
+                
+            } catch (InterruptedException | IllegalArgumentException e){
                 e.printStackTrace();
             }
         }

@@ -27,7 +27,7 @@ public class TelaJogo extends JPanel{
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            sala.autoDesenhar((Graphics2D) g);                           
+            sala.autoDesenhar((Graphics2D) g); 
         }            
 
         public Sala getSala(){

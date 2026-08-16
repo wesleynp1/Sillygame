@@ -6,25 +6,45 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import com.wesleynp1.sillygame.SillyGame;
-import com.wesleynp1.sillygame.TecladoResposivo;
+import com.wesleynp1.sillygame.interfaces.TecladoResposivo;
+import com.wesleynp1.sillygame.interfaces.Colidivel;
+
 
 /**
- * Descrição da Classe: circulo sem física que saltita na tela, cor e velocidade aleatórias, perde velocidado ao tocar as bordas,
- * velocidade alterada ao pressionar espaço
+ * Descrição da Classe: circulo que saltita na tela, cor e velocidade aleatórias, perde velocidado ao tocar as bordas,
+ * velocidade aumenta ao pressionar espaço
  */
-public class Circulo extends ObjetoJogo implements TecladoResposivo{
+public class Circulo extends ObjetoJogo implements TecladoResposivo, Colidivel{
     int velocX, velocY;
     Color cor;
+    Color contorno;
 
     public Circulo() {
         super(
             (int)(Math.random()*(SillyGame.WIDTH_TELA-32)), 
             (int)(Math.random()*(SillyGame.HEIGHT_TELA-32)),
-            Math.round((float) (Math.random()*9))
+            Math.round((float) (Math.random()*9)),
+            32,
+            32
         );
         int maxVelocCirv = 10;
 
-        Color[] cores = {
+        Color[] cores = Circulo.cores();
+        
+
+        this.velocX = (int)((Math.random()+0.1)*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
+        this.velocY = (int)((Math.random()+0.1)*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
+        this.cor = cores[(int)(Math.random()*cores.length-1)];
+        this.contorno = Color.BLACK;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
+    
+    public static Color[] cores(){
+         Color[] cores ={
             Color.CYAN,
             Color.GREEN,
             Color.MAGENTA,
@@ -40,23 +60,15 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo{
             new Color(0,0,100)
         };
 
-        this.velocX = (int)((Math.random()+0.1)*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
-        this.velocY = (int)((Math.random()+0.1)*maxVelocCirv)*(Math.random()>0.5 ? -1 : 1);
-        this.cor = cores[(int)(Math.random()*cores.length-1)];
+        return cores;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return false;
-    }
-    
 
     @Override
     public void autoDesenhar(Graphics2D g2d) {
-        g2d.setColor(this.cor);
-        g2d.fillArc(x, y, 32, 32, 0, 360);
-        g2d.setColor(Color.BLACK);
-        g2d.drawArc(x, y, 32, 32, 0, 360);
+        g2d.setColor(cor);
+        g2d.fillArc(x, y, width, height, 0, 360);
+        g2d.setColor(contorno);
+        g2d.drawArc(x, y, width, height, 0, 360);
         g2d.setFont(new Font("Arial", Font.BOLD, 24));
         g2d.drawString(String.valueOf(z), x+8, y+24);
     }
@@ -93,4 +105,15 @@ public class Circulo extends ObjetoJogo implements TecladoResposivo{
 
     @Override
     public void teclaPressionada(KeyEvent e) {}
+
+    @Override
+    public void aoColidir(Colidivel colidido) {
+        ObjetoJogo objColidido = (ObjetoJogo) colidido;
+        
+        if(objColidido.getX() < x && velocX < 0 || objColidido.getX() > x && velocX > 0) this.velocX = velocX * (-1);
+
+        if(objColidido.getY() < x && velocY < 0 || objColidido.getY() > x && velocY > 0) this.velocY = velocY * (-1);        
+
+        this.contorno = (contorno == Color.BLACK ? Color.WHITE : Color.BLACK);
+    }
 }

@@ -8,7 +8,7 @@ public class Aviso extends ObjetoJogo{
     private String texto;
 
     public Aviso(String texto,int x, int y){
-        super(x, y,0);
+        super(x, y, 0,0,0);
         this.texto = texto;
     }
 
